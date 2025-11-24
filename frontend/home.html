@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Seed2Sale — Fresh from Farm to Table</title>
+  <!-- Link to your generated Tailwind v4 output -->
+  <link rel="stylesheet" href="./output.css" />
+  <style>
+    /* Small extra styles not covered by Tailwind utilities */
+    .hero-bg {
+      background-image: url('https://plus.unsplash.com/premium_photo-1666865792731-0a2656f2b12c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1332');
+      background-size: cover;
+      background-position: center;
+    }
+    /* subtle focus outline when keyboard navigating */
+    :focus { outline: 2px solid rgba(59,122,87,0.25); outline-offset: 2px; }
+  </style>
+</head>
+<body class="antialiased text-gray-800">
+
+  <!-- NAVBAR -->
+  <header class="bg-[rgba(59,122,87,0.95)] text-white fixed w-full z-40 shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3">
+          <!-- sprouting-seed SVG -->
+          <!-- <svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" fill="#3B7A57"></circle>
+            <path d="M8.5 13.5c1.2-1.6 3.4-3 6-2.6" stroke="#EDE6DA" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M13.2 8.6c.6.8 1.9 1.1 3.1 0.7.9-.3 1.9-1.2 2.4-2.1-.8.2-1.9.1-2.8-.2-1-.3-2-1-2.7-1.7-.5.8-1 2.1-.97 3.3z" fill="#CDECCF" />
+            <path d="M11.5 7.8c.35-1.2.9-2.2 1.6-3.1-.6.3-1.8 1.1-2.4 1.9-.5.6-.8 1.4-.8 1.4s.7-.05 1.6-.2z" fill="#94D3A2"/>
+          </svg> -->
+          <img class="w-9 h-9" src="https://res.cloudinary.com/dyjltf4tr/image/upload/v1761586959/logo_a2etx6_6ab91a.png" alt="">
+          <span class="font-extrabold text-lg tracking-tight">Seed2Sale</span>
+        </a>
+
+        <!-- center: search & categories (hidden on small) -->
+        <div class="hidden lg:flex lg:items-center lg:gap-4 flex-1 justify-center">
+          <div id="searchWidget" class="w-full max-w-2xl relative">
+            <div class="flex items-center bg-white rounded-full shadow px-3 py-2">
+              <select id="categorySelect" class="appearance-none bg-white pr-2 text-sm text-gray-800 px-3 py-2 rounded-full focus:ring-0">
+                <option value="all">All Categories</option>
+                <option value="vegetables">Vegetables</option>
+                <option value="fruits">Fruits</option>
+                <option value="dairy">Dairy</option>
+                <option value="fishmeat">Fish &amp; Meat</option>
+              </select>
+              <input id="searchInput" type="search" placeholder="Search produce, farmers or items (e.g. tomatoes)"
+                     class="flex-1 px-3 py-2 text-sm  text-gray-800 bg-white rounded-full outline-none" />
+              <button id="searchBtn" aria-label="Search"
+                      class="ml-2 bg-[theme(colors.green.600)] hover:bg-[#2f6b4b] text-white px-4 py-2 rounded-full text-sm shadow">
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- actions -->
+        <div class="flex items-center gap-3">
+          <div class="hidden md:flex items-center gap-3">
+            <button id="langToggle" class="text-sm px-3 py-1 rounded bg-[rgba(255,255,255,0.08)]">EN</button>
+            <button id="loginBtn" class="text-sm px-4 py-2 rounded bg-[#A67B5B] text-white hover:bg-[#8f6547]">Login</button>
+            <!-- <button id="registerBtn" class="text-sm px-4 py-2 rounded bg-[#A67B5B] text-white hover:bg-[#8f6547]">Register</button> -->
+          </div>
+
+          <!-- cart -->
+          <div class="relative">
+            <button id="cartToggle" aria-label="Cart"
+                    class="p-2 rounded-full bg-white/10 hover:bg-white/20">
+              <!-- simple bag icon -->
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"><path d="M6 7h12l-1 12H7L6 7z" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 7V5a3 3 0 116 0v2" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span id="cartCount" class="absolute -top-1 -right-1 bg-amber-400 text-xs text-brown-800 font-semibold rounded-full w-5 h-5 flex items-center justify-center">2</span>
+            </button>
+            <!-- cart dropdown (mock) -->
+            <div id="cartDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white text-sm rounded-lg shadow-lg overflow-hidden">
+              <div class="p-4">
+                <h4 class="font-semibold text-gray-500">Your Cart (2)</h4>
+                <ul class="mt-3 space-y-3 max-h-48 overflow-y-auto">
+                  <li class="flex items-center gap-3">
+                    <img src="https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?q=80&w=120&auto=format&fit=crop" alt="" class="w-12 h-12 object-cover rounded">
+                    <div class="flex-1">
+                      <div class="text-sm  text-gray-500 font-medium">Tomatoes</div>
+                      <div class="text-xs text-gray-500">1 kg • ৳120</div>
+                    </div>
+                    <div class="text-sm  text-gray-500 font-semibold">৳120</div>
+                  </li>
+                  <li class="flex items-center gap-3">
+                    <img src="https://images.pexels.com/photos/248412/pexels-photo-248412.jpeg?q=80&w=120&auto=format&fit=crop" alt="" class="w-12 h-12 object-cover rounded">
+                    <div class="flex-1">
+                      <div class="text-sm  text-gray-500 font-medium">Milk</div>
+                      <div class="text-xs text-gray-500">1 L • ৳75</div>
+                    </div>
+                    <div class="text-sm  text-gray-500 font-semibold">৳75</div>
+                  </li>
+                </ul>
+                <div class="mt-4 border-t pt-3 flex items-center justify-between">
+                  <div class="text-sm text-gray-600">Subtotal</div>
+                  <div class=" text-gray-600 font-semibold">৳195</div>
+                </div>
+                <div class="mt-3 grid grid-cols-2 gap-2">
+                  <button class="py-2 px-3 rounded bg-amber-400 text-brown-800 font-medium">Checkout</button>
+                  <button class="py-2 px-3 rounded bg-amber-400 text-brown-800 font-medium">View Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- mobile menu toggle -->
+          <button id="mobileToggle" class="md:hidden p-2 rounded bg-white/10 hover:bg-white/20">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="white" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu panel -->
+    <div id="mobileMenu" class="hidden md:hidden bg-[rgba(59,122,87,0.98)] text-white">
+      <div class="px-4 pt-4 pb-6 space-y-4">
+        <div class="flex gap-2">
+          <select id="categorySelectMobile" class="bg-white/90 text-sm text-gray-800 rounded px-2 py-1 w-1/2">
+            <option value="all">All</option>
+            <option value="vegetables">Vegetables</option>
+            <option value="fruits">Fruits</option>
+            <option value="dairy">Dairy</option>
+            <option value="fishmeat">Fish &amp; Meat</option>
+          </select>
+          <input id="searchInputMobile" type="search" placeholder="Search" class="flex-1 px-3 rounded"/>
+          <button id="searchBtnMobile" class="bg-amber-400 text-brown-800 px-3 rounded">Go</button>
+        </div>
+        <nav class="flex flex-col gap-2">
+          <a class="py-2 px-3 rounded hover:bg-white/10" href="#">Home</a>
+          <a class="py-2 px-3 rounded hover:bg-white/10" href="#">Shop</a>
+          <a class="py-2 px-3 rounded hover:bg-white/10" href="#">Farmers</a>
+          <a class="py-2 px-3 rounded hover:bg-white/10" href="#">About</a>
+          <div class="flex gap-2 pt-2">
+            <button class="flex-1 py-2 rounded bg-[#A67B5B]">Login</button>
+            <!-- <button class="flex-1 py-2 rounded bg-[#A67B5B]">Register</button> -->
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-20">
+
+    <!-- HERO -->
+    <section class="hero-bg relative min-h-[60vh] flex items-center">
+      <div class="absolute inset-0 bg-gradient-to-b from-[rgba(26,58,38,0.45)] to-[rgba(10,10,8,0.2)]"></div>
+      <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center py-20">
+          <div class="text-white">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
+              Fresh from Farm <span class="text-amber-200">→</span> Your Table
+            </h1>
+            <p class="mt-4 text-base sm:text-lg text-amber-100 max-w-xl">
+              Empowering farmers with fair prices and delivering traceable, fresh produce directly to your door.
+            </p>
+
+            <div class="mt-6 flex gap-3 flex-wrap">
+              <a href="#products" class="inline-block bg-amber-400 hover:bg-amber-300 text-brown-900 px-6 py-3 rounded-md font-semibold shadow">Shop Now</a>
+              <a href="#how" class="inline-block border border-white/20 text-white px-5 py-3 rounded-md hover:bg-white/5">How it works</a>
+            </div>
+
+            <!-- Quick filters under hero (mobile + desktop) -->
+            <!--<div class="mt-8 bg-white/90 p-3 rounded-lg max-w-xl">
+              <div class="flex gap-2 items-center">
+                <select id="quickCategory" class="text-sm  text-gray-800 px-3 py-2 rounded border">
+                  <option value="all">All Categories</option>
+                  <option value="vegetables">Vegetables</option>
+                  <option value="fruits">Fruits</option>
+                  <option value="dairy">Dairy</option>
+                  <option value="fishmeat">Fish &amp; Meat</option>
+                </select>
+                <input id="quickSearch" class="flex-1  text-gray-800 px-3 py-2 rounded border" placeholder="Search vegetables, farmers, produce..." />
+                <button id="quickGo" class="bg-[rgba(59,122,87,0.95)] text-white px-4 py-2 rounded">Find</button>
+              </div>
+            </div>
+          </div> -->
+
+          <!-- hero right: sample farmer card -->
+          <div class="hidden lg:block">
+            <!-- <div class="bg-white rounded-2xl p-5 shadow-xl w-full max-w-md">
+              <div class="flex items-center gap-4">
+                <img class="w-16 h-16 rounded-full object-cover" src="https://images.unsplash.com/photo-1516687400208-1b7f6a0a3a50?q=80&w=400&auto=format&fit=crop" alt="Farmer">
+                <div>
+                  <div class="text-sm font-semibold">Rahim Uddin</div>
+                  <div class="text-xs text-gray-500">Smallholder farmer • Vegetables</div>
+                </div>
+              </div>
+              <p class="mt-4 text-sm text-gray-600">"Seed2Sale helped me secure fair contracts and reach city buyers directly."</p>
+              <div class="mt-4 flex items-center gap-2">
+                <span class="text-amber-400 font-semibold">৳120</span>
+                <span class="text-xs text-gray-400">per kg tomatoes</span>
+                <div class="ml-auto text-sm text-green-700 font-medium">50+ orders</div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how" class="py-16 bg-amber-50">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-2xl font-bold text-brown-800">How Seed2Sale Works</h2>
+        <p class="mt-2 text-sm text-brown-600 max-w-2xl mx-auto">A simple, transparent flow that empowers farmers and delights customers.</p>
+
+        <div class="mt-8 grid gap-8 sm:grid-cols-3">
+          <div class="bg-white rounded-xl p-6 shadow-sm">
+            <div class="text-3xl">🌱</div>
+            <h4 class="mt-3 font-semibold text-brown-800">Grow</h4>
+            <p class="mt-2 text-sm text-brown-600">Farmers cultivate and list fresh produce with full traceability.</p>
+          </div>
+          <div class="bg-white rounded-xl p-6 shadow-sm">
+            <div class="text-3xl">📦</div>
+            <h4 class="mt-3 font-semibold text-brown-800">List & Negotiate</h4>
+            <p class="mt-2 text-sm text-brown-600">Transparent listings, direct negotiation, and fair pricing for each lot.</p>
+          </div>
+          <div class="bg-white rounded-xl p-6 shadow-sm">
+            <div class="text-3xl">🚚</div>
+            <h4 class="mt-3 font-semibold text-brown-800">Deliver & Earn</h4>
+            <p class="mt-2 text-sm text-brown-600">Secure payments and tracked deliveries — farmers get paid fairly and promptly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="py-12 bg-white">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h3 class="text-2xl font-bold text-brown-800 mb-6">Featured Categories</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="bg-[rgba(59,122,87,0.06)] rounded-lg p-4 text-center">
+            <img src="https://images.pexels.com/photos/1367243/pexels-photo-1367243.jpeg?q=80&w=400&auto=format&fit=crop" alt="" class="mx-auto w-24 h-24 object-cover rounded-lg">
+            <div class="mt-3 font-semibold">Vegetables</div>
+          </div>
+          <div class="bg-[rgba(59,122,87,0.06)] rounded-lg p-4 text-center">
+            <img src="https://images.pexels.com/photos/1300975/pexels-photo-1300975.jpeg?q=80&w=400&auto=format&fit=crop" alt="" class="mx-auto w-24 h-24 object-cover rounded-lg">
+            <div class="mt-3 font-semibold">Fruits</div>
+          </div>
+          <div class="bg-[rgba(59,122,87,0.06)] rounded-lg p-4 text-center">
+            <img src="https://www.freshfarms.com/wp-content/uploads/2023/01/The-Health-Benefits-of-Dairy-Exploring-the-Nutrients-in-Milk-Cheese-and-Yogurt.jpg?q=80&w=400&auto=format&fit=crop" alt="" class="mx-auto w-24 h-24 object-cover rounded-lg">
+            <div class="mt-3 font-semibold">Dairy</div>
+          </div>
+          <div class="bg-[rgba(59,122,87,0.06)] rounded-lg p-4 text-center">
+            <img src="https://images.pexels.com/photos/19311538/pexels-photo-19311538.jpeg?q=80&w=400&auto=format&fit=crop" alt="" class="mx-auto w-24 h-24 object-cover rounded-lg">
+            <div class="mt-3 font-semibold">Fish &amp; Meat</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS GRID -->
+    <section id="products" class="py-16 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-2xl font-bold text-brown-800">Featured Products</h3>
+          <div class="text-sm text-gray-600">Showing <span id="shownCount">8</span> items</div>
+        </div>
+
+        <div id="productGrid" class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          <!-- sample product card (repeat with data-category) -->
+          <template id="productTemplate">
+            <article class="bg-white rounded-xl shadow-sm overflow-hidden group">
+              <div class="relative">
+                <img class="w-full h-48 object-cover" src="" alt="product">
+                <div class="absolute top-3 left-3 bg-amber-400 text-brown-800 px-2 py-1 rounded text-xs font-semibold">Fresh</div>
+                <div class="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
+                  <!-- <button class="bg-white rounded-full w-10 h-10 flex items-center justify-center shadow"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"><path d="M12 7a5 5 0 100 10 5 5 0 000-10z" stroke="#111" stroke-width="1.2"/></svg></button> -->
+                  <button class="bg-white rounded-full w-10 h-10 flex items-center justify-center shadow">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </button>
+                  <button class="bg-[rgba(59,122,87,0.95)]  text-white rounded-full w-10 h-10 flex items-center justify-center shadow">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="p-4">
+                <h4 class="font-semibold text-sm leading-tight">Product name</h4>
+                <p class="text-xs text-gray-500 mt-1">Farmer • Category</p>
+                <div class="mt-3 flex items-center justify-between">
+                  <div class="text-amber-600 font-semibold">৳120/kg</div>
+                  <!-- <button class="text-sm text-gray-500">Add</button> -->
+                </div>
+              </div>
+            </article>
+          </template>
+
+        </div>
+        <div class="mt-8 text-center">
+          <button id="loadMore" class="px-6 py-3 rounded bg-amber-400 border-gray-200 hover:bg-amber-300">Load more</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="py-16 bg-white">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h3 class="text-2xl font-bold text-brown-800">What Farmers Say</h3>
+        <p class="mt-2 text-sm text-brown-600">Real stories from our farming community.</p>
+
+        <div class="mt-8 grid gap-6 md:grid-cols-3">
+          <div class="bg-amber-50 p-6 rounded-xl">
+            <p class="italic text-gray-700">“I get paid fairly and quickly — Seed2Sale changed my earnings.”</p>
+            <div class="mt-4 font-semibold">— Rahim U.</div>
+          </div>
+          <div class="bg-amber-50 p-6 rounded-xl">
+            <p class="italic text-gray-700">“Orders are consistent and the buyers are great.”</p>
+            <div class="mt-4 font-semibold">— Fatema B.</div>
+          </div>
+          <div class="bg-amber-50 p-6 rounded-xl">
+            <p class="italic text-gray-700">“No middlemen, better margins — love the platform.”</p>
+            <div class="mt-4 font-semibold">— Hasan A.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER (ShopEase style restyled) -->
+    <footer class="bg-[#0f1720] text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+          <div class="md:col-span-2">
+            <div class="flex items-center gap-3 mb-3">
+              <svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#3B7A57"/><path d="M8.5 13.5c1.2-1.6 3.4-3 6-2.6" stroke="#EDE6DA" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="font-extrabold text-lg text-amber-100">Seed2Sale</span>
+            </div>
+            <p class="text-gray-300 max-w-md">Connecting farmers directly with consumers — fresh, traceable produce, fair pricing, and fast delivery.</p>
+            <div class="mt-6 flex gap-3">
+              <a class="w-10 h-10 rounded bg-white/6 flex items-center justify-center hover:bg-white/10" href="#" aria-label="facebook">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"><path d="M18 2h-3a4 4 0 00-4 4v3H8v4h3v8h4v-8h3l1-4h-4V6a1 1 0 011-1h3V2z" stroke="#fff" stroke-width="1.2"/></svg>
+              </a>
+              <a class="w-10 h-10 rounded bg-white/6 flex items-center justify-center hover:bg-white/10" href="#" aria-label="instagram">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" stroke="#fff" stroke-width="1.2"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h5 class="font-semibold mb-3 text-gray-200">Shop</h5>
+            <ul class="space-y-2 text-gray-400">
+              <li><a href="#" class="hover:text-white">Vegetables</a></li>
+              <li><a href="#" class="hover:text-white">Fruits</a></li>
+              <li><a href="#" class="hover:text-white">Dairy</a></li>
+              <li><a href="#" class="hover:text-white">Fish &amp; Meat</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h5 class="font-semibold mb-3 text-gray-200">Company</h5>
+            <ul class="space-y-2 text-gray-400">
+              <li><a href="#" class="hover:text-white">About</a></li>
+              <li><a href="#" class="hover:text-white">Careers</a></li>
+              <li><a href="#" class="hover:text-white">Blog</a></li>
+              <li><a href="#" class="hover:text-white">Contact</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h5 class="font-semibold mb-3 text-gray-200">Help</h5>
+            <ul class="space-y-2 text-gray-400">
+              <li><a href="#" class="hover:text-white">Customer Service</a></li>
+              <li><a href="#" class="hover:text-white">Shipping &amp; Returns</a></li>
+              <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-8 border-t border-white/6 pt-6 flex flex-col md:flex-row items-center justify-between text-gray-400 text-sm">
+          <div>© 2025 Seed2Sale. All rights reserved.</div>
+          <div class="flex gap-4 mt-4 md:mt-0">
+            <a href="#" class="hover:text-white">Privacy</a>
+            <a href="#" class="hover:text-white">Terms</a>
+            <a href="#" class="hover:text-white">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Small JS: search, filters, mobile toggles, product population (mock) -->
+  <!-- <script>
+    // Mobile menu
+    document.getElementById('mobileToggle').addEventListener('click', ()=> {
+      const m = document.getElementById('mobileMenu');
+      m.classList.toggle('hidden');
+    });
+
+    // Cart toggle
+    document.getElementById('cartToggle').addEventListener('click', (e)=>{
+      e.stopPropagation();
+      document.getElementById('cartDropdown').classList.toggle('hidden');
+    });
+    document.addEventListener('click', ()=> {
+      document.getElementById('cartDropdown').classList.add('hidden');
+    });
+
+    // Basic search hookups (desktop & mobile)
+    const products = [
+      { name: 'Tomatoes', category: 'vegetables', price: '৳120/kg', img: 'https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg' },
+      { name: 'Banana Bunch', category: 'fruits', price: '৳60/kg', img: 'https://images.pexels.com/photos/3001996/pexels-photo-3001996.jpeg' },
+      { name: 'Organic Milk', category: 'dairy', price: '৳75/L', img: 'https://images.pexels.com/photos/248412/pexels-photo-248412.jpeg' },
+      { name: 'Fresh Fish', category: 'fishmeat', price: '৳220/kg', img: 'https://images.pexels.com/photos/2792153/pexels-photo-2792153.jpeg' },
+      { name: 'Spinach Bunch', category: 'vegetables', price: '৳40/bunch', img: 'https://images.pexels.com/photos/16731602/pexels-photo-16731602.jpeg' },
+      { name: 'Mango Box', category: 'fruits', price: '৳260/box', img: 'https://images.pexels.com/photos/5629819/pexels-photo-5629819.jpeg' },
+      { name: 'Paneer Pack', category: 'dairy', price: '৳300/pack', img: 'https://images.pexels.com/photos/306801/pexels-photo-306801.jpeg' },
+      { name: 'Prawns', category: 'fishmeat', price: '৳320/kg', img: 'https://images.pexels.com/photos/3680164/pexels-photo-3680164.jpeg' }
+    ];
+
+    const grid = document.getElementById('productGrid');
+    const tpl = document.getElementById('productTemplate');
+    const shownCount = document.getElementById('shownCount');
+
+    function renderProducts(list) {
+      grid.innerHTML = '';
+      list.forEach(p => {
+        const el = tpl.content.cloneNode(true);
+        el.querySelector('img').src = p.img;
+        el.querySelector('h4').textContent = p.name;
+        el.querySelector('p').textContent = 'Farmer • ' + (p.category === 'fishmeat' ? 'Fish & Meat' : p.category.charAt(0).toUpperCase()+p.category.slice(1));
+        el.querySelector('.text-amber-600').textContent = p.price;
+        grid.appendChild(el);
+      });
+      shownCount.textContent = list.length;
+    }
+
+    // initial
+    renderProducts(products);
+
+    // quick filter / search
+    document.getElementById('quickGo').addEventListener('click', () => {
+      const cat = document.getElementById('quickCategory').value;
+      const q = document.getElementById('quickSearch').value.trim().toLowerCase();
+      const filtered = products.filter(p => (cat === 'all' || p.category === cat) && (q === '' || p.name.toLowerCase().includes(q)));
+      renderProducts(filtered);
+      window.location.hash = '#products';
+    });
+
+    // desktop search
+    document.getElementById('searchBtn').addEventListener('click', () => {
+      const cat = document.getElementById('categorySelect').value;
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      const filtered = products.filter(p => (cat === 'all' || p.category === cat) && (q === '' || p.name.toLowerCase().includes(q)));
+      renderProducts(filtered);
+      window.location.hash = '#products';
+    });
+
+    // mobile search
+    document.getElementById('searchBtnMobile').addEventListener('click', () => {
+      const cat = document.getElementById('categorySelectMobile').value;
+      const q = document.getElementById('searchInputMobile').value.trim().toLowerCase();
+      const filtered = products.filter(p => (cat === 'all' || p.category === cat) && (q === '' || p.name.toLowerCase().includes(q)));
+      renderProducts(filtered);
+      document.getElementById('mobileMenu').classList.add('hidden');
+      window.location.hash = '#products';
+    });
+
+    // load more (mock: repeat dataset)
+    document.getElementById('loadMore').addEventListener('click', () => {
+      const more = products.map(p => ({...p}));
+      renderProducts(products.concat(more));
+    });
+
+    // cart dropdown stop propagation
+    document.getElementById('cartDropdown').addEventListener('click', (e)=> e.stopPropagation());
+
+    // small accessibility: pressing Enter triggers search
+    document.getElementById('searchInput').addEventListener('keydown', (e)=> { if(e.key==='Enter') document.getElementById('searchBtn').click();});
+    document.getElementById('searchInputMobile').addEventListener('keydown', (e)=> { if(e.key==='Enter') document.getElementById('searchBtnMobile').click();});
+    document.getElementById('quickSearch').addEventListener('keydown', (e)=> { if(e.key==='Enter') document.getElementById('quickGo').click();});
+  </script> -->
+
+<script type="module" src="./src/js/home.js"></script>
+
+</body>
+</html>

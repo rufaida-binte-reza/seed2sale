@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seed2Sale | Connecting Farmers to the Future</title>
+  <link href="./output.css" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="./loadComponents.js" defer></script>
+</head>
+
+<body class="bg-[#F8F6F1] text-[#2B2B2B] font-sans relative">
+  <!-- Header -->
+  <div id="header"></div>
+
+  <!-- Page content -->
+  <main id="content" class="pt-20">
+    <!-- The child page (like home.html) will load here -->
+  </main>
+
+  <!-- Footer -->
+  <div id="footer"></div>
+
+    <!-- core api + page scripts -->
+  <script src="/src/api/api.js" defer></script>
+  <script src="/src/api/auth.js" defer></script>
+  <script src="/src/api/products.js" defer></script>
+  <script src="/src/api/cart.js" defer></script>
+  <script src="/src/api/wishlist.js" defer></script>
+  <script src="/src/api/reviews.js" defer></script>
+  <script src="/src/api/addresses.js" defer></script>
+  <script src="/src/api/payment.js" defer></script>
+  <!-- your existing component loader -->
+  <script src="./loadComponents.js" defer></script>
+
+</body>
+</html>

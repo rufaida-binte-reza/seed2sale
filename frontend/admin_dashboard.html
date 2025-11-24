@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --sage: #8baa82;
+      --soil: #4b3f32;
+      --light: #f7f6f2;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-[var(--light)] text-[var(--soil)] antialiased flex min-h-screen">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-[var(--soil)] text-gray-100 flex flex-col fixed inset-y-0 z-50">
+    <div class="p-6 text-center border-b">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3">
+          <!-- sprouting-seed SVG -->
+          <!-- <svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" fill="#3B7A57"></circle>
+            <path d="M8.5 13.5c1.2-1.6 3.4-3 6-2.6" stroke="#EDE6DA" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M13.2 8.6c.6.8 1.9 1.1 3.1 0.7.9-.3 1.9-1.2 2.4-2.1-.8.2-1.9.1-2.8-.2-1-.3-2-1-2.7-1.7-.5.8-1 2.1-.97 3.3z" fill="#CDECCF" />
+            <path d="M11.5 7.8c.35-1.2.9-2.2 1.6-3.1-.6.3-1.8 1.1-2.4 1.9-.5.6-.8 1.4-.8 1.4s.7-.05 1.6-.2z" fill="#94D3A2"/>
+          </svg> -->
+          <img class="w-9 h-9" src="https://res.cloudinary.com/dyjltf4tr/image/upload/v1761586959/logo_a2etx6_6ab91a.png" alt="">
+          <span class="font-extrabold text-lg tracking-tight">Seed2Sale</span>
+        </a>
+    </div>
+    <nav class="flex-1 p-4 space-y-2 text-sm overflow-y-auto scrollbar-hide">
+      <a href="#" class="block px-4 py-2 rounded-md bg-[var(--sage)] text-white font-medium">Dashboard</a>
+      <a href="#" class="block px-4 py-2 rounded-md hover:bg-gray-700">Contracts Queue</a>
+      <a href="#" class="block px-4 py-2 rounded-md hover:bg-gray-700">Products Moderation</a>
+      <a href="#" class="block px-4 py-2 rounded-md hover:bg-gray-700">Warehouses</a>
+      <a href="#" class="block px-4 py-2 rounded-md hover:bg-gray-700">Orders & Logistics</a>
+      <a href="#" class="block px-4 py-2 rounded-md hover:bg-gray-700">Disputes</a>
+      <a href="#" class="block px-4 py-2 rounded-md hover:bg-gray-700">Analytics</a>
+    </nav>
+    <div class="p-4 border-t border-gray-700">
+      <a href="#" class="block text-center bg-red-600 hover:bg-red-700 rounded-md py-2 font-semibold text-white">Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="flex-1 ml-64 p-8">
+    <header class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-extrabold">Admin Dashboard</h1>
+      <!-- <div class="flex items-center gap-4">
+        <input type="text" placeholder="Search..." class="px-3 py-2 rounded-md border text-sm focus:outline-none">
+        <button class="bg-[var(--sage)] text-white px-4 py-2 rounded-md hover:bg-green-700">+ New</button>
+      </div> -->
+    </header>
+
+    <!-- KPI CARDS -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
+        <p class="text-sm text-gray-500">Procurement Volume</p>
+        <h2 class="text-2xl font-bold mt-2">৳2.4M</h2>
+        <p class="text-xs text-green-600 mt-1">↑ 12% this week</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
+        <p class="text-sm text-gray-500">Order Fulfillment Rate</p>
+        <h2 class="text-2xl font-bold mt-2">96.2%</h2>
+        <p class="text-xs text-green-600 mt-1">↑ Stable</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
+        <p class="text-sm text-gray-500">Pending Contracts</p>
+        <h2 class="text-2xl font-bold mt-2">8</h2>
+        <p class="text-xs text-red-600 mt-1">↓ Review required</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
+        <p class="text-sm text-gray-500">Open Disputes</p>
+        <h2 class="text-2xl font-bold mt-2">3</h2>
+        <p class="text-xs text-yellow-600 mt-1">⚠ Under review</p>
+      </div>
+    </section>
+
+    <!-- CONTRACTS QUEUE -->
+    <section class="mb-10">
+      <div class="flex justify-between items-center mb-3">
+        <h2 class="text-xl font-semibold">Contracts Queue</h2>
+        <a href="#" class="text-[var(--sage)] text-sm font-medium hover:underline">View All</a>
+      </div>
+      <div class="bg-white rounded-xl shadow overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="bg-[var(--sage)] text-white text-left">
+            <tr>
+              <th class="px-6 py-3">Farmer</th>
+              <th class="px-6 py-3">Product</th>
+              <th class="px-6 py-3">Proposed Rate</th>
+              <th class="px-6 py-3">Duration</th>
+              <th class="px-6 py-3 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b hover:bg-gray-50">
+              <td class="px-6 py-3">Abdul Rahman</td>
+              <td class="px-6 py-3">Tomatoes</td>
+              <td class="px-6 py-3">৳85/kg</td>
+              <td class="px-6 py-3">3 months</td>
+              <td class="px-6 py-3 text-center">
+                <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-md text-xs">Approve</button>
+                <button class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md text-xs ml-2">Reject</button>
+              </td>
+            </tr>
+            <tr class="border-b hover:bg-gray-50">
+              <td class="px-6 py-3">Sumi Akter</td>
+              <td class="px-6 py-3">Brown Rice</td>
+              <td class="px-6 py-3">৳58/kg</td>
+              <td class="px-6 py-3">6 months</td>
+              <td class="px-6 py-3 text-center">
+                <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-md text-xs">Approve</button>
+                <button class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md text-xs ml-2">Reject</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- WAREHOUSE / INVENTORY -->
+    <section class="mb-10">
+      <h2 class="text-xl font-semibold mb-3">Warehouse & Inventory</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl p-6 shadow">
+          <h4 class="font-bold text-lg mb-2">Warehouse A</h4>
+          <p class="text-sm text-gray-600">Capacity: <strong>85%</strong></p>
+          <p class="text-sm text-gray-600">Location: Rangpur</p>
+          <p class="text-xs text-yellow-700 mt-2">⚠ Near full capacity</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow">
+          <h4 class="font-bold text-lg mb-2">Warehouse B</h4>
+          <p class="text-sm text-gray-600">Capacity: <strong>62%</strong></p>
+          <p class="text-sm text-gray-600">Location: Rajshahi</p>
+          <p class="text-xs text-green-700 mt-2">✓ Stable</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow">
+          <h4 class="font-bold text-lg mb-2">Warehouse C</h4>
+          <p class="text-sm text-gray-600">Capacity: <strong>47%</strong></p>
+          <p class="text-sm text-gray-600">Location: Dhaka</p>
+          <p class="text-xs text-green-700 mt-2">✓ Sufficient space</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
