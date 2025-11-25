@@ -7,9 +7,17 @@ readme = "README.md"
 packages = [{ include = "seed2sale", from = "src" }]
 
 [tool.poetry.dependencies]
-python = ">=3.12"
+# Lock the Python version range to a version that is supported by compiled
+# packages (Pillow provides prebuilt Windows wheels for Python <3.14 as of
+# this project's dependency constraints). If you're on Python 3.14, install
+# Python 3.12 (or 3.11) and re-create the Poetry environment with
+# `poetry env use <path-to-python3.12>`.
+python = ">=3.12,<3.14"
 django = ">=5.0.1"
 djangorestframework = "^3.16.1"
+django-cors-headers = "^4.0.0"
+djangorestframework-simplejwt = "^5.2.0"
+Pillow = ">=10.1,<11"
 
 
 [build-system]

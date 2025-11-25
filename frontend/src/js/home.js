@@ -2,15 +2,15 @@
 // Module to power home.html with real API calls to your Django backend.
 // Assumptions:
 // - API base at /api/
-// - Auth token (if used) stored at localStorage.authToken (Bearer JWT or token).
+// - Auth token (if used) stored at localStorage.s2s_token (Bearer JWT).
 // - Endpoints used: /api/products/, /api/cart/, /api/cart-items/, /api/wishlist/, /api/reviews/, /api/categories/ (best-effort).
 // - If backend uses session auth, browser cookies will be used automatically (fetch includes credentials).
-// - To use token auth, set localStorage.authToken = "<your token>" in console.
+// - To use token auth, set localStorage.s2s_token = "<your token>" in console.
 
 const BASE = '/api';
 const DEFAULT_HEADERS = () => {
   const headers = { 'Content-Type': 'application/json' };
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('s2s_token');
   if (token) headers['Authorization'] = `Bearer ${token}`;
   return headers;
 };

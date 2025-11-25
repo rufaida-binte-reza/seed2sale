@@ -2,20 +2,19 @@
 import { apiFetch, setAuthToken } from "./api.js";
 
 async function login(emailOrPhone, password) {
-  // Adapt endpoint if your accounts app exposes a specific endpoint.
-  // Many projects use /accounts/token/ or /api/auth/login/. Try /accounts/login/ first.
-  const path = "/accounts/login/"; // if your backend uses different, change here
+  // Prefer the project token endpoint: POST /api/token/ (returns { access, refresh }).
+  const path = "/token/"; // will be prefixed by /api by apiFetch
   try {
     const data = await apiFetch(path, {
       method: "POST",
       auth: false,
-      body: { email: emailOrPhone, password }
+      // simplejwt TokenObtainPairView expects 'username' and 'password' (or 'email').
+      // If using a custom accounts EmailOrPhoneTokenObtainView it may accept 'identifier' instead.
+      body: { identifier: emailOrPhone, password }
     });
-    // expected response includes token (adjust field name if different)
-    if (data && (data.token || data.key)) {
-      const token = data.token || data.key;
-      setAuthToken(token);
-      return data;
+    // simplejwt returns { access, refresh }.
+    if (data && data.access) {
+      setAuthToken(data.access);
     }
     return data;
   } catch (err) {
@@ -25,7 +24,7 @@ async function login(emailOrPhone, password) {
 
 async function register(payload) {
   // payload: { email, full_name, password, ... } - change keys to what your backend expects.
-  const path = "/accounts/register/";
+  const path = "/accounts/register/"; // if accounts registered under /api/accounts/
   return apiFetch(path, { method: "POST", auth: false, body: payload });
 }
 

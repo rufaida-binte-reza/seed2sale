@@ -1,4 +1,28 @@
 from django.urls import path
+from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenRefreshView
+
+from .auth import EmailOrPhoneTokenObtainView
+from .views import (
+    RegisterView,
+    profile_view,
+    AddressViewSet,
+    FarmerProfileViewSet,
+)
+
+router = DefaultRouter()
+router.register(r'farmers', FarmerProfileViewSet, basename='farmers')
+router.register(r'addresses', AddressViewSet, basename='address')
+
+urlpatterns = [
+    *router.urls,
+    path('register/', RegisterView.as_view(), name='register'),
+    # custom token endpoint (email or phone identifier + password)
+    path('token/', EmailOrPhoneTokenObtainView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('profile/', profile_view, name='profile'),
+]
+from django.urls import path
 # from . import views
 
 # urlpatterns = [

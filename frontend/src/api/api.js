@@ -25,7 +25,8 @@ async function apiFetch(path, { method = "GET", body = null, auth = true, header
   if (!(body instanceof FormData)) baseHeaders["Content-Type"] = "application/json";
 
   const token = getAuthToken();
-  if (auth && token) baseHeaders["Authorization"] = `Token ${token}`;
+  // Backend expects a JWT Bearer token (simplejwt). Use `Bearer <token>`.
+  if (auth && token) baseHeaders["Authorization"] = `Bearer ${token}`;
 
   const resp = await fetch(url, {
     method,

@@ -9,13 +9,13 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const { data } = await api.post('/token/', { email, password });
-    localStorage.setItem('token', data.access);
+    localStorage.setItem('s2s_token', data.access);
     const res = await api.get('/auth/me/');
     setUser(res.data);
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('s2s_token');
     setUser(null);
     window.location = '/login';
   };
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
         const res = await api.get('/auth/me/');
         setUser(res.data);
       } catch {
-        localStorage.removeItem('token');
+        localStorage.removeItem('s2s_token');
       } finally {
         setLoading(false);
       }

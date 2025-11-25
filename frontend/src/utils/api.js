@@ -7,7 +7,7 @@ const api = axios.create({
 
 // attach JWT token to every request
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('s2s_token');
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
@@ -17,7 +17,7 @@ api.interceptors.response.use(
   (res) => res,
   (err) => {
     if (err.response?.status === 401) {
-      localStorage.removeItem('token');
+      localStorage.removeItem('s2s_token');
       window.location = '/login';
     }
     return Promise.reject(err);

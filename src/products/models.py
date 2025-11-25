@@ -51,26 +51,7 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
-class Wishlist(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='wishlist')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='wishlisted_by')
-    added_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ('user', 'product')
-
-    def __str__(self):
-        return f"{self.user.full_name} ❤️ {self.product.name}"
-
-class Review(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="reviews")
-    rating = models.PositiveSmallIntegerField(default=1)  # 1–5 stars
-    comment = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.product.name} - {self.rating}⭐ by {self.user.full_name}"
+# Wishlist and Review are defined later with consistent fields and relations
 
 
 from django.conf import settings

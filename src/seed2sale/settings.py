@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-i=(-jk78xc)j3wsznh&lbkdn)1^&)2ojtdwjllp%fz(++=kty(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'testserver', '[::1]']
 
 
 # Application definition
@@ -158,6 +158,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
+    BASE_DIR.parent / 'static',  # repo root `static/`
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # for collectstatic in production
 

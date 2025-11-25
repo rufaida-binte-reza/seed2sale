@@ -34,4 +34,8 @@ class CurrentUserView(APIView):
 
     def get(self, request):
         user = request.user
-        return Response({'id': user.id, 'username': user.username})
+        return Response({
+            'id': user.id,
+            'email': getattr(user, 'email', None),
+            'full_name': getattr(user, 'full_name', None),
+        })

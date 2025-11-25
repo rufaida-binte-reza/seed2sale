@@ -8,17 +8,17 @@ async function login(email, password) {
   });
   if (!res.ok) throw new Error('Invalid credentials');
   const data = await res.json();
-  localStorage.setItem('token', data.access);
+  localStorage.setItem('s2s_token', data.access);
   window.location = 'catalog.html';
 }
 
 function logout() {
-  localStorage.removeItem('token');
+  localStorage.removeItem('s2s_token');
   window.location = 'login.html';
 }
 
 function authedFetch(url, options = {}) {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('s2s_token');
   if (!token) { window.location = 'login.html'; return; }
   options.headers ||= {};
   options.headers.Authorization = `Bearer ${token}`;
