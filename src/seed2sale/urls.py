@@ -15,6 +15,7 @@ from api.views import (
     # OrderViewSet,
     # OrderItemViewSet,
     CurrentUserView,
+    FrontendPageView,
 )
 
 router = DefaultRouter()
@@ -25,6 +26,8 @@ router.register(r'wishlists', WishlistViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', FrontendPageView.as_view(), name='home'),
+    path('<str:page>.html', FrontendPageView.as_view(), name='frontend_page'),
     path('api/', include(router.urls)),
     path('api/accounts/', include('accounts.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
