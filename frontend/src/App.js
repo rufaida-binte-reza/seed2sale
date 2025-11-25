@@ -1,24 +1,39 @@
-const pages = [
-  { label: "Home", href: "/" },
-  { label: "Catalog", href: "/catalog/" },
-  { label: "Product Detail", href: "/product-detail/" },
-  { label: "Login", href: "/login/" },
-  { label: "Cart / Checkout", href: "/cart-checkout/" },
-  { label: "Admin Dashboard", href: "/admin-dashboard/" },
-  { label: "Customer Dashboard", href: "/customer-dashboard/" },
-  { label: "Inventory", href: "/inventory/" },
-  { label: "Farmer Profile", href: "/farmer-profile/" },
-  { label: "Driver Jobs", href: "/driver-jobs/" },
-  { label: "About / Contact / FAQ", href: "/about-contact-faq/" },
-];
+/* <app>/static/js/app.js  – optional polish, NOT a router */
+(() => {
+  // 1. Highlight current nav link
+  const current = location.pathname;
+  document.querySelectorAll('nav a').forEach(a => {
+    if (a.getAttribute('href') === current) {
+      a.classList.add('active');
+    }
+  });
 
-function loadMenu() {
-  const nav = document.getElementById("nav-menu");
-  if (!nav) return;
+  // 2. Auto CSRF token for fetch() posts
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]')?.value
+                 || document.cookie
+                     .split('; ')
+                     .find(row => row.startsWith('csrftoken='))
+                     ?.split('=')[1];
 
-  nav.innerHTML = pages
-    .map(p => `<li><a href="${p.href}">${p.label}</a></li>`)
-    .join("");
-}
+  const safeMethods = ['GET', 'HEAD', 'OPTIONS', 'TRACE'];
+  if (csrftoken) {
+    document.addEventListener('submit', e => {
+      const form = e.target;
+      if (form.method && !safeMethods.includes(form.method.toUpperCase())) {
+        if (!form.querySelector('[name=csrfmiddlewaretoken]')) {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = 'csrfmiddlewaretoken';
+          input.value = csrftoken;
+          form.appendChild(input);
+        }
+      }
+    });
+  }
 
-loadMenu();
+  // 3. Small utility: flash-message fade
+  const flash = document.querySelector('.flash');
+  if (flash) {
+    setTimeout(() => flash.classList.add('fade-out'), 3000);
+  }
+})();
