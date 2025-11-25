@@ -276,15 +276,15 @@
         name: "",
         loading: false,
 
-        validateEmail(email) {
-          return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);
-        },
-        validatePhone(phone) {
-          return /^(?:\\+?88)?01[3-9]\\d{8}$/.test(phone);
-        },
-        validateContact(contact) {
-          return this.validateEmail(contact) || this.validatePhone(contact);
-        },
+        // validateEmail(email) {
+        //   return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);
+        // },
+        // validatePhone(phone) {
+        //   return /^(?:\\+?88)?01[3-9]\\d{8}$/.test(phone);
+        // },
+        // validateContact(contact) {
+        //   return this.validateEmail(contact) || this.validatePhone(contact);
+        // },
         validatePassword(password) {
           return password.length >= 8;
         },
