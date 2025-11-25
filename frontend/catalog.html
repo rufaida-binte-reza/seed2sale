@@ -705,7 +705,7 @@
     document.getElementById('searchInputMobile').addEventListener('keydown', (e)=> { if(e.key==='Enter') document.getElementById('searchBtnMobile').click();});
   </script> --> 
 
-  <script type="module">
+  <!-- <script type="module">
   import { fetchProducts, renderProductCard } from '/src/api/products.js';
   (async () => {
     const list = document.getElementById('product-list');
@@ -714,6 +714,29 @@
     products.forEach(p => renderProductCard(p, list));
     // attach add to cart handlers handled by cart.js (delegation recommended)
   })();
+</script> -->
+
+<script type="module">
+  import { authedFetch, logout } from './js/auth.js';
+
+  authedFetch('http://localhost:8000/api/products/')
+    .then(r => r.json())
+    .then(data => {
+      const list = document.getElementById('product-list') || document.body;
+      (data.results || data).forEach(p => {
+        list.insertAdjacentHTML('beforeend',
+          `<div class="p-4 border mb-2 rounded">
+             <h3 class="font-bold">${p.name}</h3>
+             <p>$${p.price}</p>
+           </div>`);
+      });
+    })
+    .catch(() => logout());
+
+  // logout button
+  document.body.insertAdjacentHTML('beforeend',
+    `<button onclick="logout()" class="fixed bottom-4 right-4 bg-red-500 text-white px-4 py-2 rounded">Logout</button>`);
 </script>
+
 </body>
 </html>

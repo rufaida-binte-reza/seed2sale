@@ -75,9 +75,7 @@
               >
               <div class="relative">
                 <input
-                  type="text"
-                  x-model="contact"
-                  required
+                  <input id="email" type="text" x-model="contact" required
                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[var(--sage)] focus:border-transparent"
                   placeholder="you@example.com or +8801XXXXXXXXX"
                 />
@@ -133,9 +131,7 @@
               >
               <div class="relative">
                 <input
-                  :type="showPassword ? 'text' : 'password'"
-                  x-model="password"
-                  required
+                  <input id="password" type="password" x-model="password" required
                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[var(--sage)] focus:border-transparent"
                   placeholder="••••••••"
                 />
@@ -224,14 +220,14 @@
               </span>
               <span
                 x-show="!loading"
-                x-text="isLogin ? 'Sign In' : 'Register'"
+                x-text="isLogin ? `Sign In` : `Register`"
               ></span>
             </button>
 
             <!-- SWITCH -->
             <p class="mt-6 text-center text-gray-600">
               <span
-                x-text="isLogin ? 'Don\\'t have an account?' : 'Already registered?'"
+                x-text="isLogin ? `Don't have an account?` : `Already registered?`"
               ></span>
               <button
                 type="button"
@@ -265,7 +261,7 @@
   </div>
 
   <!-- SCRIPT -->
-  <!-- <script>
+  <script>
     document.addEventListener("alpine:init", () => {
       Alpine.data("authPage", () => ({
         isLogin: true,
@@ -309,9 +305,9 @@
         },
       }));
     });
-  </script> -->
+  </script>
 
-  <script>
+  <!-- <script>
   import { login } from '/src/api/auth.js';
   document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -324,6 +320,24 @@
       alert("Login failed: " + (err.data?.detail || err.message));
     }
   });
+</script> -->
+
+
+<script type="module">
+  import { login } from './auth.js';
+
+  // real JWT login (only when in sign-in mode)
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    const alpine = document.querySelector('[x-data]')._x_dataStack[0];
+    if (!alpine.isLogin) return;          // let Alpine handle register
+    e.preventDefault();
+    try {
+      await login(alpine.contact, alpine.password); // contact field == email
+    } catch {
+      alert('Login failed');
+    }
+  });
 </script>
+
 </body>
 </html>
